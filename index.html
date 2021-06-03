@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+  <html>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>  
+  <body ng-app="myApp">
+
+  <p>Try writing in the input field:</p>
+  <div ng-controller="myCtrl">
+
+    <form name="myForm">
+      <input name="myInput" ng-model="myInput" required ng-change="change()">
+          <p ng-if="!isValid" style="color: red">Inválido</p>
+          <button ng-disabled="!isValid">Enviar</button>
+    </form>
+
+    <p>The input's valid state is:</p>
+    <h1>{{myForm.myInput.$valid}}</h1>
+      <p>Result: {{ myInput }} qtdChars: {{ qtdChar }}</p>
+
+  <script>
+
+  angular.module('myApp',[]).controller('myCtrl', ['$scope', function($scope){
+
+    $scope.myInput = '';
+    $scope.qtdChar = 0;
+    $scope.change = change;
+    $scope.isValid = false;
+
+    function change(){
+      $scope.qtdChar = $scope.myInput.length;
+      if($scope.qtdChar > 3){
+        $scope.isValid = true;
+      }
+    }
+
+  }]);
+
+
+  </script>
+  </body>
+</html>
