@@ -1,0 +1,33 @@
+<!doctype html>
+<html ng-app="myApp">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.0.4/css/bootstrap-combined.min.css">
+    <script>
+      let content = 'teste arquivooooooooo';
+      let blob = new Blob([content], {type: 'text/plain'});
+      
+      const app = angular.module('myApp', []);
+      app.config(['$compileProvider',
+        function ($compileProvider) {
+          $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|blob):/);
+      }]);
+      app.controller('myCtrl', function(){
+        const vm = this;
+        vm.novo = 'novo';
+        vm.url = (window.URL || window.webkitURL).createObjectURL( blob );
+      });
+      
+    </script>
+  </head>
+  <body>
+    <div ng-controller="myCtrl as vm">
+      <label>Name:</label>
+      <input type="text" ng-model="yourName" placeholder="Enter a name here">
+      <hr>
+      <h1>Hello {{yourName}}!</h1>
+      <p>Novo: {{ vm.novo }}</p>
+      <a download="content.txt" ng-href="{{ vm.url }}">download</a>
+    </div>
+  </body>
+</html>
